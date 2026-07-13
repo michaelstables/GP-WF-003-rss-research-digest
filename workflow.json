@@ -1,0 +1,350 @@
+{
+  "name": "RSS Research Digest",
+  "description": "Fetch an RSS feed, summarize the useful items, and turn noisy reading into a practical research digest.",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "613ff0dc-cae3-473d-8642-417bf5264a72",
+      "name": "Manual Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        260,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca9e08ed-2ca2-407e-b772-6be200a35102",
+              "name": "workflow_code",
+              "value": "GP-WF-003",
+              "type": "string"
+            },
+            {
+              "id": "446ace9f-2f9f-4c00-8a88-70d54e0e88eb",
+              "name": "workflow_name",
+              "value": "RSS Research Digest",
+              "type": "string"
+            },
+            {
+              "id": "feed-url-003",
+              "name": "feed_url",
+              "value": "https://blog.n8n.io/rss/",
+              "type": "string"
+            },
+            {
+              "id": "topic-lens-003",
+              "name": "topic_lens",
+              "value": "AI workflows, automation ideas, local AI, practical productivity systems, and reusable workflow examples",
+              "type": "string"
+            },
+            {
+              "id": "audience-003",
+              "name": "audience",
+              "value": "Busy creators, solo builders, consultants, and practical AI learners who want useful things to read without checking every feed manually",
+              "type": "string"
+            },
+            {
+              "id": "digest-goal-003",
+              "name": "digest_goal",
+              "value": "Find the most useful ideas, links, and actions from today's feed items so the reader knows what is worth opening, saving, or turning into content/workflows.",
+              "type": "string"
+            },
+            {
+              "id": "max-items-003",
+              "name": "max_items",
+              "value": 6,
+              "type": "number"
+            },
+            {
+              "id": "fallback-items-003",
+              "name": "fallback_items",
+              "value": "1. n8n shares examples for AI workflow automation. 2. Ollama improves local model management. 3. A creator explains how meeting notes can become SOPs. 4. A newsletter covers practical ways to organize AI research notes.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d4c01bf2-a5ad-41cd-8639-48af29fd03d2",
+      "name": "Set Workflow Inputs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = { ...$json };\n\nconst prompt = [\n  'You are creating a practical RSS research digest for a human reader.',\n  '',\n  'Workflow: GP-WF-003 - RSS Research Digest',\n  'Problem it solves: The reader follows too many feeds, blogs, newsletters, and updates to know what is worth opening or saving.',\n  'Main task: Turn raw RSS/feed items into a concise research digest with themes, useful links, action ideas, and parked items.',\n  '',\n  'Input data:',\n  JSON.stringify(input, null, 2),\n  '',\n  'Content principles:',\n  '- Practical, clear, and useful.',\n  '- Write like a knowledgeable coworker filtering the noise.',\n  '- Do not hype the items or pretend every link is important.',\n  '- Do not invent URLs, quotes, facts, or claims beyond the provided feed items.',\n  '- If an item is thin, say what should be checked before trusting it.',\n  '- Focus on what is worth reading, saving, turning into content, or turning into a workflow.',\n  '',\n  'Return ONLY valid JSON in this exact shape:',\n  '{',\n  '  \"document_title\": \"Specific digest title\",',\n  '  \"summary\": \"Plain-English summary of what this digest found.\",',\n  '  \"top_themes\": [\"Theme 1\", \"Theme 2\", \"Theme 3\"],',\n  '  \"must_read_items\": [',\n  '    {',\n  '      \"title\": \"Item title\",',\n  '      \"link\": \"Item link if provided\",',\n  '      \"why_it_matters\": \"Why this is worth opening or saving\",',\n  '      \"practical_use\": \"How the reader could use it\"',\n  '    }',\n  '  ],',\n  '  \"quick_summaries\": [',\n  '    { \"title\": \"Item title\", \"summary\": \"Two-sentence practical summary\" }',\n  '  ],',\n  '  \"workflow_or_content_ideas\": [\"Idea 1\", \"Idea 2\", \"Idea 3\"],',\n  '  \"parked_items\": [\"Item or idea to save for later\"],',\n  '  \"things_to_verify\": [\"Claim, link, or topic a human should verify\"],',\n  '  \"cta\": \"One small next action.\",',\n  '  \"next_steps\": [\"Practical next step 1\", \"Practical next step 2\", \"Practical next step 3\"],',\n  '  \"review_note\": \"Short reminder about what a human should check before using the digest.\"',\n  '}',\n  '',\n  'Quality bar:',\n  '- Identify 2 to 4 top themes.',\n  '- Pick 1 to 3 must-read items, not everything.',\n  '- Summarize every parsed feed item briefly.',\n  '- Include at least 3 workflow_or_content_ideas.',\n  '- Keep it skimmable and useful.',\n  '',\n  'Final reminder: output JSON only. No Markdown fence. No explanation before or after the JSON.'\n].join('\\n');\n\nreturn [{ json: { ...input, prompt } }];\n"
+      },
+      "id": "96b74305-0070-4900-9925-89aa72977886",
+      "name": "Build AI Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "batching": {}
+      },
+      "id": "5a2b98b8-335f-435c-9aa3-79d714ed0f06",
+      "name": "Generate With AI",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1480,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "model": "llama3.1:8b",
+        "options": {
+          "format": "json",
+          "temperature": 0.1
+        }
+      },
+      "id": "43b69cb7-9851-402c-9cae-b66356602104",
+      "name": "Local Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nfunction getParsedFeedMetadata() {\n  try {\n    return $('Parse RSS Items').first().json;\n  } catch (_) {\n    try {\n      return $items('Parse RSS Items')[0].json;\n    } catch (_) {\n      return {};\n    }\n  }\n}\n\nfunction extractJson(value) {\n  if (value && typeof value === 'object' && (value.must_read_items || value.top_themes || value.document_title)) {\n    return value;\n  }\n\n  const raw = String(value?.response || value?.text || value?.output || value?.result || value?.message?.content || '').trim();\n  if (!raw) throw new Error('AI did not return text or structured JSON.');\n\n  const cleaned = raw\n    .replace(/^```[a-zA-Z]*\\n?/, '')\n    .replace(/```$/, '')\n    .trim();\n\n  try {\n    return JSON.parse(cleaned);\n  } catch (_) {\n    const firstBrace = cleaned.indexOf('{');\n    const lastBrace = cleaned.lastIndexOf('}');\n    if (firstBrace >= 0 && lastBrace > firstBrace) {\n      return JSON.parse(cleaned.slice(firstBrace, lastBrace + 1));\n    }\n  }\n\n  throw new Error('AI did not return usable JSON. Rerun the workflow or use a model that supports JSON output.');\n}\n\nfunction asList(value, fallback) {\n  if (Array.isArray(value)) {\n    const cleaned = value.map((item) => String(item).trim()).filter(Boolean);\n    if (cleaned.length) return cleaned;\n  }\n  if (typeof value === 'string' && value.trim()) {\n    return value.split('\\n').map((item) => item.replace(/^[-*]\\s*/, '').trim()).filter(Boolean);\n  }\n  return fallback;\n}\n\nfunction bulletList(items) {\n  return asList(items, ['None added.']).map((item) => '- ' + item).join('\\n');\n}\n\nfunction mustReadMarkdown(items) {\n  if (!Array.isArray(items) || items.length === 0) return '- None selected.';\n  return items.map((item) => {\n    return [\n      `- **${item.title || 'Untitled item'}**${item.link ? ` - ${item.link}` : ''}`,\n      `  - Why it matters: ${item.why_it_matters || 'Review before opening.'}`,\n      `  - Practical use: ${item.practical_use || 'Save or adapt if useful.'}`\n    ].join('\\n');\n  }).join('\\n');\n}\n\nfunction summaryMarkdown(items) {\n  if (!Array.isArray(items) || items.length === 0) return '- None added.';\n  return items.map((item) => `- **${item.title || 'Untitled item'}**: ${item.summary || 'No summary provided.'}`).join('\\n');\n}\n\nconst feedMetadata = getParsedFeedMetadata();\nconst parsed = extractJson(item);\nconst nextSteps = asList(parsed.next_steps, ['Open the strongest item.', 'Save useful links.', 'Turn one idea into a note or draft.']);\n\nconst markdown = [\n  '## Top Themes',\n  bulletList(parsed.top_themes),\n  '',\n  '## Must-Read Items',\n  mustReadMarkdown(parsed.must_read_items),\n  '',\n  '## Quick Summaries',\n  summaryMarkdown(parsed.quick_summaries),\n  '',\n  '## Workflow Or Content Ideas',\n  bulletList(parsed.workflow_or_content_ideas),\n  '',\n  '## Parked Items',\n  bulletList(parsed.parked_items),\n  '',\n  '## Things To Verify',\n  bulletList(parsed.things_to_verify),\n  '',\n  '## CTA',\n  parsed.cta || 'Open one item and decide whether to save, act, or ignore it.'\n].join('\\n');\n\nreturn [{\n  json: {\n    workflow_name: 'GP-WF-003 - RSS Research Digest',\n    created_at: new Date().toISOString(),\n    document_title: String(parsed.document_title || 'RSS Research Digest').trim(),\n    summary: String(parsed.summary || '').trim(),\n    output_markdown: markdown,\n    next_steps: nextSteps,\n    review_note: String(parsed.review_note || 'Check source links and summaries before relying on this digest.').trim(),\n    feed_url: feedMetadata.feed_url || item.feed_url || '',\n    item_count: feedMetadata.item_count || item.item_count || 0\n  }\n}];\n"
+      },
+      "id": "4854e743-e728-4e18-b2e1-d72d1f0e2ed6",
+      "name": "Review AI Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1720,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const today = new Date();\nconst date = today.toISOString().slice(0, 10);\nconst nextSteps = Array.isArray($json.next_steps) ? $json.next_steps : [];\n\nconst body = [\n  `# ${$json.document_title || 'RSS Research Digest'}`,\n  '',\n  `Created: ${date}`,\n  'Workflow: GP-WF-003 - RSS Research Digest',\n  $json.feed_url ? `Feed: ${$json.feed_url}` : '',\n  $json.item_count ? `Items parsed: ${$json.item_count}` : '',\n  '',\n  '## Summary',\n  $json.summary || 'No summary returned.',\n  '',\n  $json.output_markdown || '',\n  '',\n  '## Next Steps',\n  ...(nextSteps.length ? nextSteps.map((step) => `- ${step}`) : ['- Review the digest and open one useful source.']),\n  '',\n  '## Human Review Note',\n  $json.review_note || 'Review source links before using this digest.',\n  '',\n  'Source: GetPrompting Free Workflow Library'\n].filter((line) => line !== '').join('\\n');\n\nreturn [{\n  json: {\n    ...$json,\n    document_title: `GP-WF-003 - RSS Research Digest - ${date}`,\n    document_body: body\n  }\n}];\n"
+      },
+      "id": "d2042c95-4508-447e-9695-475e24d642d0",
+      "name": "Prepare Google Doc",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "document",
+        "operation": "create",
+        "driveId": "myDrive",
+        "folderId": "default",
+        "title": "={{ $json.document_title }}"
+      },
+      "id": "84a0f58c-4b5e-4666-aa75-ea8e2878eb29",
+      "name": "Create Google Doc",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "document",
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "simple": true,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "text",
+              "action": "insert",
+              "insertSegment": "body",
+              "locationChoice": "endOfSegmentLocation",
+              "text": "={{ $node[\"Prepare Google Doc\"].json.document_body }}"
+            }
+          ]
+        },
+        "updateFields": {}
+      },
+      "id": "5ea1d8e5-5edf-4c54-be56-86ffb40a09bb",
+      "name": "Write Google Doc",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2440,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.feed_url }}",
+        "options": {}
+      },
+      "id": "fetch-rss-feed-003",
+      "name": "Fetch RSS Feed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const httpInput = $input.first().json;\nlet setup = {};\ntry { setup = $('Set Workflow Inputs').first().json; } catch (error) {\n  try { setup = $items('Set Workflow Inputs')[0].json; } catch (nestedError) { setup = {}; }\n}\nconst input = { ...setup, ...httpInput };\nconst maxItems = Number(setup.max_items || input.max_items || 6);\nconst feedUrl = setup.feed_url || input.feed_url || '';\nconst topicLens = setup.topic_lens || input.topic_lens || '';\nconst audience = setup.audience || input.audience || '';\nconst digestGoal = setup.digest_goal || input.digest_goal || '';\nconst fallbackItems = setup.fallback_items || input.fallback_items || '';\n\nfunction stripHtml(value) {\n  return String(value || '')\n    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, '$1')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&quot;/g, '\"')\n    .replace(/&#39;/g, \"'\")\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction pick(obj, keys) {\n  for (const key of keys) {\n    if (obj && obj[key] !== undefined && obj[key] !== null) return obj[key];\n  }\n  return '';\n}\n\nconst raw = pick(httpInput, ['body', 'data', 'response', 'text', 'content']) || pick(input, ['body', 'data', 'response', 'text', 'content']) || JSON.stringify(httpInput);\nlet items = [];\nconst itemBlocks = String(raw).match(/<item[\\s\\S]*?<\\/item>/gi) || String(raw).match(/<entry[\\s\\S]*?<\\/entry>/gi) || [];\n\nfor (const block of itemBlocks.slice(0, maxItems)) {\n  const title = stripHtml((block.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i) || [,''])[1]);\n  let link = stripHtml((block.match(/<link[^>]*>([\\s\\S]*?)<\\/link>/i) || [,''])[1]);\n  if (!link) link = stripHtml((block.match(/<link[^>]*href=[\"']([^\"']+)[\"'][^>]*>/i) || [,''])[1]);\n  const date = stripHtml((block.match(/<pubDate[^>]*>([\\s\\S]*?)<\\/pubDate>/i) || block.match(/<updated[^>]*>([\\s\\S]*?)<\\/updated>/i) || block.match(/<published[^>]*>([\\s\\S]*?)<\\/published>/i) || [,''])[1]);\n  const description = stripHtml((block.match(/<description[^>]*>([\\s\\S]*?)<\\/description>/i) || block.match(/<summary[^>]*>([\\s\\S]*?)<\\/summary>/i) || block.match(/<content[^>]*>([\\s\\S]*?)<\\/content>/i) || [,''])[1]).slice(0, 700);\n  if (title || link || description) items.push({ title, link, date, description });\n}\n\nif (items.length === 0 && fallbackItems) {\n  items = fallbackItems.split(/\\n|\\d+\\.\\s+/).map((text) => stripHtml(text)).filter(Boolean).slice(0, maxItems).map((text, index) => ({\n    title: text,\n    link: '',\n    date: '',\n    description: 'Fallback item ' + (index + 1) + ' from the setup node.'\n  }));\n}\n\nif (items.length === 0) {\n  throw new Error('No RSS items could be parsed. Check the feed_url or add fallback_items.');\n}\n\nreturn [{ json: {\n  workflow_code: input.workflow_code || 'GP-WF-003',\n  workflow_name: input.workflow_name || 'RSS Research Digest',\n  feed_url: feedUrl,\n  topic_lens: topicLens,\n  audience,\n  digest_goal: digestGoal,\n  max_items: maxItems,\n  source_items: items,\n  item_count: items.length\n}}];"
+      },
+      "id": "parse-rss-items-003",
+      "name": "Parse RSS Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        120
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Start": {
+      "main": [
+        [
+          {
+            "node": "Set Workflow Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Workflow Inputs": {
+      "main": [
+        [
+          {
+            "node": "Fetch RSS Feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch RSS Feed": {
+      "main": [
+        [
+          {
+            "node": "Parse RSS Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse RSS Items": {
+      "main": [
+        [
+          {
+            "node": "Build AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate With AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate With AI",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate With AI": {
+      "main": [
+        [
+          {
+            "node": "Review AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review AI Output": {
+      "main": [
+        [
+          {
+            "node": "Prepare Google Doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Google Doc": {
+      "main": [
+        [
+          {
+            "node": "Create Google Doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Google Doc": {
+      "main": [
+        [
+          {
+            "node": "Write Google Doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "tags": [
+    "getprompting",
+    "free-workflow-library",
+    "gp-wf-003"
+  ]
+}
