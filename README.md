@@ -30,7 +30,7 @@ The workflow creates a Google Doc with themes, must-read items, quick summaries,
 
 ### Successful Test Run
 
-![Successful test run](screenshots/input-example.png)
+![Successful test run](screenshots/successful-test-run.png)
 
 ### Google Docs Output
 
