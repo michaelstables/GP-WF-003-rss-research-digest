@@ -36,6 +36,11 @@ The workflow creates a Google Doc with themes, must-read items, quick summaries,
 
 ![Google Docs output](screenshots/workflow-output.png)
 
+## Download Workflow JSON
+
+- [Download workflow.json](https://raw.githubusercontent.com/michaelstables/GP-WF-003-rss-research-digest/main/workflow.json)
+- [View workflow.json on GitHub](https://github.com/michaelstables/GP-WF-003-rss-research-digest/blob/main/workflow.json)
+
 ## Requirements
 
 - n8n
@@ -57,7 +62,7 @@ For more detail, see [Installation](docs/installation.md).
 
 ## Files
 
-- `workflow.json` - clean n8n workflow export with no private credential references
+- [`workflow.json`](https://github.com/michaelstables/GP-WF-003-rss-research-digest/blob/main/workflow.json) - clean n8n workflow export with no private credential references
 - `examples/sample-input.md` - example input you can adapt
 - `examples/sample-output.md` - example finished output
 - `docs/installation.md` - setup instructions
