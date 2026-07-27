@@ -4,6 +4,102 @@
   "active": false,
   "nodes": [
     {
+      "parameters": {
+        "content": "## What this workflow does\nRSS Research Digest is a beginner-friendly n8n workflow from the GetPrompting Free n8n Workflow Library. It turns a messy input into a structured output you can review, customize, and reuse.",
+        "height": 260,
+        "width": 380,
+        "color": 4
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-overview",
+      "name": "Sticky Note - What This Workflow Does",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Setup before running\n1. Import this workflow into n8n.\n2. Make sure Ollama is running locally.\n3. Confirm the Ollama model name matches a model on your machine.\n4. Connect Google Docs credentials if this workflow writes to Docs.",
+        "height": 260,
+        "width": 380,
+        "color": 6
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-setup",
+      "name": "Sticky Note - Setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        690,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Customize the inputs\nAdd an RSS feed URL, topic lens, target audience, digest goal, and fallback items.\n\nSwap the feed, increase or reduce item count, or change the digest format for your niche.",
+        "height": 260,
+        "width": 380,
+        "color": 3
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-inputs",
+      "name": "Sticky Note - Customize Inputs",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## AI step\nThe AI node should produce a practical first draft, not a final answer. If the output feels thin, improve the prompt instructions, use a stronger model, or add more source context.",
+        "height": 260,
+        "width": 380,
+        "color": 5
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-ai",
+      "name": "Sticky Note - AI Step",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1550,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Output\nCreates a Google Doc with themes, useful items, summaries, content ideas, and review notes.\n\nYou can replace the destination with Notion, Obsidian, email, Sheets, a database, or another tool you already use.",
+        "height": 260,
+        "width": 380,
+        "color": 2
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-output",
+      "name": "Sticky Note - Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Human review\nOpen source links yourself before quoting, sharing, or turning items into content.\n\nThis workflow is designed to keep a person in the loop. Review the result before you publish, send, submit, or archive it.",
+        "height": 260,
+        "width": 380,
+        "color": 7
+      },
+      "id": "GP-WF-003-rss-research-digest-sticky-review",
+      "name": "Sticky Note - Human Review",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2410,
+        -260
+      ]
+    },
+    {
       "parameters": {},
       "id": "613ff0dc-cae3-473d-8642-417bf5264a72",
       "name": "Manual Start",
@@ -342,9 +438,5 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "tags": [
-    "getprompting",
-    "free-workflow-library",
-    "gp-wf-003"
-  ]
+  "tags": []
 }
